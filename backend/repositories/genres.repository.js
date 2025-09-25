@@ -32,7 +32,7 @@ const findById = async (id) => {
     }
 }
 
-const nameAlreadyKnown = async (name) => {
+const findByName = async (name) => {
     const SELECT = "SELECT * FROM Genres WHERE name=?";
     let result = false;
     try {
@@ -74,7 +74,7 @@ const updateById = async (id, genre) => {
     }
 }
 
-const deleteById = async (id) => {
+const removeById = async (id) => {
     const DELETE = `DELETE FROM Genres WHERE id=?`;
     try {
         const deleted = await connection.query(DELETE, id);
@@ -88,4 +88,4 @@ const deleteById = async (id) => {
     }
 }
 
-export default { findAll, findById, nameAlreadyKnown, add, updateById, deleteById }
+export default { findAll, findById, findByName, add, updateById, removeById }

@@ -4,7 +4,7 @@ import DateService from "../services/date.service.js";
 import { FAVORI_LIBELLE, ROLE_LIBELLE } from "../constantes/views.js";
 import { ERROR_LIBELLE } from "../constantes/errors.js";
 
-const displayView = async (req, res) => {
+const displayView = async (req) => {
     try {
         const user = await UsersRepository.findById(req.session.userLogged.id);
 

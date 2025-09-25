@@ -1,13 +1,8 @@
 import express from 'express';
 import 'dotenv/config';
 import session from "express-session";
-import authentification from "./routes/authentification.route.js";
-import homepage from "./routes/homepage.route.js";
-import administration from "./routes/administration.route.js";
-import favoris from "./routes/favoris.route.js";
-import profile from "./routes/profile.route.js";
-import logout from "./routes/logout.route.js";
 import flash from "connect-flash";
+import genres from "./routes/genres.route.js";
 
 const app = express();
 
@@ -29,22 +24,15 @@ app.use(express.static("public"));
 const PORT = process.env.PORT || 5555;
 
 // Mapping entre routes et le routeur
-
-app.use("/authentification", authentification);
-app.use("/homepage", homepage);
-app.use("/administration", administration);
+app.use("/genres", genres);
+app.use("/films", films);
+app.use("/users", users);
 app.use("/favoris", favoris);
-app.use("/profile", profile);
-app.use("/logout", logout);
-
-// Configuration du moteur de template
-app.set("view engine", "ejs");
-app.set("views", import.meta.dirname + "/templates");
 
 app.all("/*splat", (req, res) => {
     res
-    .status(404)
-    .end("Page Introuvable");
+    .status(400)
+    .end("Erreur appel API");
 });
 
 app.listen(PORT, () => {
