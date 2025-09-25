@@ -145,7 +145,7 @@ const addFilm = async (req) => {
     req.flash("anchor", "filmForm");
     try {
         await ValidationService.filmSchema.validate(req.body);
-        const titleKnown = await FilmsRepository.existByTitle(req.body.title);
+        const titleKnown = await FilmsRepository.findByTitle(req.body.title);
         if (titleKnown) {
             throw new Error(ERROR_LIBELLE.FILM_TITLE_ALREADY_EXIST);
         } else {
@@ -192,7 +192,7 @@ const modifierFilm = async (req) => {
     try {
         if (req.params.id === req.body.id) {
             await ValidationService.modifyFilmSchema.validate(req.body);
-            const titleKnown = await FilmsRepository.existByTitle(req.body.titleM);
+            const titleKnown = await FilmsRepository.findByTitle(req.body.titleM);
             const filmOnBase = await FilmsRepository.findById(req.body.id);
             if (filmOnBase.title !== req.body.titleM && titleKnown) {
                 throw new Error(ERROR_LIBELLE.FILM_TITLE_ALREADY_EXIST);

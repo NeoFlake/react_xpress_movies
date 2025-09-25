@@ -3,6 +3,7 @@ import 'dotenv/config';
 import session from "express-session";
 import flash from "connect-flash";
 import genres from "./routes/genres.route.js";
+import films from "./routes/films.route.js";
 
 const app = express();
 

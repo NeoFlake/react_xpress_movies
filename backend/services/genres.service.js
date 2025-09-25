@@ -26,7 +26,7 @@ const findAll = async () => {
  */
 const findById = async (id) => {
     try {
-        const genre = GenresRepository.findById();
+        const genre = GenresRepository.findById(id);
         if (genre.length > 0) {
             return genre;
         } else {
@@ -68,7 +68,7 @@ const updateById = async (genre, id) => {
             } else {
                 const update = await GenresRepository.updateById(id, { 
                     id: genre.id, 
-                    name: genre.nameM 
+                    name: genre.name
                 });
                 if (update === false) {
                     throw new Error(ERROR_LIBELLE.ADD_GENRE_DB_ERROR);

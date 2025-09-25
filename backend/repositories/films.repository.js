@@ -16,11 +16,11 @@ const findAll = async () => {
             return [];
         }
     } catch (error) {
-        throw new Error(DB_ERROR.FIND_FILMS);
+        throw new Error(error.message);
     }
 }
 
-const existByTitle = async (title) => {
+const findByTitle = async (title) => {
     const SELECT = "SELECT * FROM Films WHERE title=?";
     let result = false;
     try {
@@ -154,4 +154,4 @@ const deleteById = async (id) => {
     }
 }
 
-export default { findAll, findById, existByTitle, findLikeByTitle, add, updateById, deleteById }
+export default { findAll, findById, findByTitle, findLikeByTitle, add, updateById, deleteById }
