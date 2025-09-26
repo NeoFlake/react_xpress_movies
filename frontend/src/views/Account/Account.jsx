@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { LIBELLE, ACCOUNT_MODE } from "../../constantes/account.constantes";
 import { yupResolver } from '@hookform/resolvers/yup';
+import { UserService } from "../../services/users.service.js";
 import inscriptionSchema from "../../validators/inscription.validator.js";
 import "./Account.css";
 
@@ -26,7 +27,7 @@ export default function Account() {
   });
 
   const sendInscription = (data) => {
-    
+    UserService.inscription(data);
     resetInscription();
   };
 
