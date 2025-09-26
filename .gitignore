@@ -12,6 +12,8 @@ frontend/dist
 frontend/dist-ssr
 frontend/*.local
 
+frontend/axios.config.js
+
 # Editor directories and files
 frontend/.vscode/*
 frontend/!.vscode/extensions.json
