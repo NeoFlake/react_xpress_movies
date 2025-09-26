@@ -1,14 +1,14 @@
-import FilmsService from "../services/films.service.js";
+import UsersService from "../services/users.service.js";
 import { ERROR_LIBELLE } from "../constantes/errors.js";
 
 const findAll = async (req, res) => {
     try {
-        const films = await FilmsService.findAll();
+        const users = await UsersService.findAll();
         return res
             .status(200)
-            .json(films);
+            .json(users);
     } catch (error) {
-        if (error.message === "Aucun film n'a pu être retourné") {
+        if (error.message === "Aucun utilisateur n'a pu être retourné") {
             return res
                 .status(200)
                 .json([]);
@@ -25,16 +25,16 @@ const findAll = async (req, res) => {
 
 const findById = async (req, res) => {
     try {
-        const film = await FilmsService.findById(req.params.id);
+        const user = await UsersService.findById(req.params.id);
         return res
             .status(200)
-            .json(film);
+            .json(user);
     } catch (error) {
-        if (error.message === "Aucun film trouvé avec cet identifiant") {
+        if (error.message === "Aucun utilisateur trouvé avec cet identifiant") {
             return res
                 .status(404)
                 .json({
-                    error: "Film not Found",
+                    error: "User not Found",
                     message: error.message
                 });
         } else {
@@ -48,18 +48,18 @@ const findById = async (req, res) => {
     }
 }
 
-const findLikeByTitle = async (req, res) => {
+const login = async (req, res) => {
     try {
-        const films = await FilmsService.findLikeByTitle(req.params.title);
+        const user = await UsersService.add(req.body);
         return res
             .status(200)
-            .json(films);
+            .json(user);
     } catch (error) {
-        if (error.message === "Aucun film trouvé avec cette recherche") {
+        if (error.message === ERROR_LIBELLE.AUTHENTIFICATION_FAIL) {
             return res
-                .status(404)
+                .status(401)
                 .json({
-                    error: "Film not Found",
+                    error: "Unauthorized",
                     message: error.message
                 });
         } else {
@@ -75,11 +75,11 @@ const findLikeByTitle = async (req, res) => {
 
 const add = async (req, res) => {
     try {
-        await FilmsService.add(req.body);
+        await UsersService.add(req.body);
         return res
             .status(200);
     } catch (error) {
-        if (error.message === ERROR_LIBELLE.FILM_TITLE_ALREADY_EXIST) {
+        if (error.message === ERROR_LIBELLE.EMAIL_ALREADY_EXIST) {
             return res
                 .status(400)
                 .json({
@@ -99,15 +99,23 @@ const add = async (req, res) => {
 
 const updateById = async (req, res) => {
     try {
-        await FilmsService.updateById(req.body, req.params.id);
+        await UsersService.updateById(req.body, req.params.id);
         return res
             .status(200);
     } catch (error) {
-        if (error.message === ERROR_LIBELLE.FILM_TITLE_ALREADY_EXIST) {
+        if (error.message === ERROR_LIBELLE.EMAIL_ALDREADY_EXIST || error.message === ERROR_LIBELLE.UPDATE_PROFILE_FAIL
+            || error.message === ERROR_LIBELLE.UPDATE_PASSWORD_FAIL) {
             return res
                 .status(400)
                 .json({
                     error: "Request error",
+                    message: error.message
+                });
+        } else if (error.message === ERROR_LIBELLE.BAD_PASSWORD) {
+            return res
+                .status(401)
+                .json({
+                    error: "Unauthorized",
                     message: error.message
                 });
         } else {
@@ -123,7 +131,7 @@ const updateById = async (req, res) => {
 
 const removeById = async (req, res) => {
     try {
-        await FilmsService.removeById(req.params.id);
+        await UsersService.removeById(req.params.id);
         return res
             .status(200);
     } catch (error) {
@@ -136,4 +144,4 @@ const removeById = async (req, res) => {
     }
 }
 
-export default { findAll, findById, findLikeByTitle, add, updateById, removeById }
+export default { findAll, findById, login, add, updateById, removeById }

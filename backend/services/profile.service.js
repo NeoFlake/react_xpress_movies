@@ -2,7 +2,7 @@ import { ERROR_LIBELLE } from "../constantes/errors.js";
 import { ROLE_LIBELLE, VIEW_LIBELLE } from "../constantes/views.js";
 import { FRONT } from "../constantes/profile.js";
 import { AUTHENTIFICATION_LIBELLE } from "../constantes/authentification.js";
-import UserRepository from "../repositories/users.repository.js";
+import UsersRepository from "../repositories/users.repository.js";
 import validationService from "../services/validation.service.js";
 import bcrypt from 'bcrypt';
 
@@ -10,7 +10,7 @@ const saltRounds = 10;
 
 const displayView = async (req) => {
     try {
-        const user = await UserRepository.findById(req.session.userLogged.id);
+        const user = await UsersRepository.findById(req.session.userLogged.id);
         return {
             user: user,
             navbar: {
@@ -32,8 +32,8 @@ const displayView = async (req) => {
 const update = async (req) => {
     try {
         await validationService.updateProfileSchema.validate(req.body);
-        const emailAlreadyExist = await UserRepository.findByEmail(req.body.email);
-        const user = await UserRepository.findById(req.session.userLogged.id);
+        const emailAlreadyExist = await UsersRepository.findByEmail(req.body.email);
+        const user = await UsersRepository.findById(req.session.userLogged.id);
         if (req.params.id === req.body.id) {
             if (req.body.email !== user.email && emailAlreadyExist.length > 0) {
                 throw new Error(ERROR_LIBELLE.EMAIL_ALDREADY_EXIST);
@@ -48,7 +48,7 @@ const update = async (req) => {
                     if (req.body.newPassword.length > 0) {
                         if (req.body.newPassword === req.body.confirmPassword) {
                             updatedUser.password = await bcrypt.hash(req.body.newPassword, saltRounds);
-                            const update = await UserRepository.updateById(req.body.id, updatedUser);
+                            const update = await UsersRepository.updateById(req.body.id, updatedUser);
                             if (update === 0) {
                                 throw new Error(ERROR_LIBELLE.UPDATE_PROFILE_FAIL);
                             }
@@ -56,7 +56,7 @@ const update = async (req) => {
                             throw new Error(ERROR_LIBELLE.UPDATE_PASSWORD_FAIL);
                         }
                     } else {
-                        const update = await UserRepository.updateById(req.body.id, updatedUser);
+                        const update = await UsersRepository.updateById(req.body.id, updatedUser);
                         if (update === 0) {
                             throw new Error(ERROR_LIBELLE.UPDATE_PROFILE_DB_ERROR);
                         }
@@ -75,7 +75,7 @@ const update = async (req) => {
 
 const remove = async (req) => {
     try {
-        const remove = await UserRepository.deleteById(req.params.id);
+        const remove = await UsersRepository.deleteById(req.params.id);
         if (remove > 0) {
             delete req.session.userLogged;
         } else {

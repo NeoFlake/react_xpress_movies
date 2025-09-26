@@ -1,5 +1,5 @@
 import FavorisService from "../services/favoris.service.js";
-import { VIEW_LIBELLE } from "../constantes/views.js";
+import { ERROR_LIBELLE } from "../constantes/errors.js";
 
 const displayView = async (req, res) => {
     try {
@@ -19,4 +19,55 @@ const remove = async (req, res) => {
     }
 }
 
-export default { displayView, remove }
+// .post("/", FavorisController.add)
+//     .delete("/", FavorisController.removeByUserAndFilmId);
+
+const add = async (req, res) => {
+    try {
+        await FavorisService.add(req.body);
+        return res
+            .status(200);
+    } catch (error) {
+        if (error.message === ERROR_LIBELLE.NEW_FAVORI_ERROR) {
+            return res
+                .status(400)
+                .json({
+                    error: "Request error",
+                    message: error.message
+                });
+        } else {
+            return res
+                .status(500)
+                .json({
+                    error: "Internal server error",
+                    message: error.message
+                });
+        }
+    }
+}
+
+const removeByUserAndFilmId = async (req, res) => {
+    try {
+        await FavorisService.removeByUserAndFilmId(req.body);
+        return res
+            .status(200);
+    } catch (error) {
+        if (error.message === ERROR_LIBELLE.NEW_FAVORI_ERROR) {
+            return res
+                .status(400)
+                .json({
+                    error: "Request error",
+                    message: error.message
+                });
+        } else {
+            return res
+                .status(500)
+                .json({
+                    error: "Internal server error",
+                    message: error.message
+                });
+        }
+    }
+}
+
+export default { displayView, remove, add, removeByUserAndFilmId }

@@ -1,5 +1,5 @@
 import FilmsRepository from "../repositories/films.repository.js";
-import UserRepository from "../repositories/users.repository.js";
+import UsersRepository from "../repositories/users.repository.js";
 import FavorisRepository from "../repositories/favoris.repository.js";
 import DateService from '../services/date.service.js';
 import ValidationService from "../services/validation.service.js";
@@ -10,7 +10,7 @@ import { ERROR_LIBELLE } from "../constantes/errors.js";
 const displayView = async (req) => {
     try {
         let films = [];
-        const user = await UserRepository.findById(req.session.userLogged.id);
+        const user = await UsersRepository.findById(req.session.userLogged.id);
 
         const flashSearchByTitle = req.flash("searchByTitle");
         const flashTitleSearched = req.flash("titleSearched");

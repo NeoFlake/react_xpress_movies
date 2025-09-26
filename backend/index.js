@@ -4,6 +4,8 @@ import session from "express-session";
 import flash from "connect-flash";
 import genres from "./routes/genres.route.js";
 import films from "./routes/films.route.js";
+import users from "./routes/users.route.js";
+import favoris from "./routes/favoris.route.js";
 
 const app = express();
 

@@ -1,6 +1,6 @@
 import connection from "../config/db.config.js";
 import { DB_ERROR } from "../constantes/errors.js";
-import Favoris_Repository from "./favoris.repository.js";
+import FavorisRepository from "./favoris.repository.js";
 
 const findAll = async () => {
     const SELECT = `SELECT u.id, u.lastname, u.firstname, u.email, u.password,  +
@@ -136,9 +136,9 @@ const updateById = async (id, user) => {
 
 const updateFavorisByUserId = async (id, favoris) => {
     try {
-        const removeFavoris = await Favoris_Repository.removeByUserId(id);
+        const removeFavoris = await FavorisRepository.removeByUserId(id);
         if (removeFavoris.affectedRows > 0) {
-            const addNewFavoris = await Favoris_Repository.addMultiple(id, favoris);
+            const addNewFavoris = await FavorisRepository.addMultiple(id, favoris);
             if (addNewFavoris.affectedRows > 0) {
                 return resultat[0].affectedRows;
             } else {
@@ -152,11 +152,11 @@ const updateFavorisByUserId = async (id, favoris) => {
     }
 }
 
-const deleteById = async (id) => {
+const removeById = async (id) => {
     const DELETE = `DELETE FROM Users WHERE id=?`;
     try {
         const deleted = await connection.query(DELETE, [id]);
-        await Favoris_Repository.removeByUserId(id);
+        await FavorisRepository.removeByUserId(id);
         if (deleted[0].affectedRows > 0) {
                 return deleted[0].affectedRows;
         } else {
@@ -167,4 +167,4 @@ const deleteById = async (id) => {
     }
 }
 
-export default { findAll, findById, findByEmail, add, updateById, updateFavorisByUserId, deleteById }
+export default { findAll, findById, findByEmail, add, updateById, updateFavorisByUserId, removeById }

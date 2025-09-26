@@ -1,4 +1,4 @@
-import UserRepository from "../repositories/users.repository.js";
+import UsersRepository from "../repositories/users.repository.js";
 import ValidationService from "../services/validation.service.js";
 import bcrypt from 'bcrypt';
 import { ERROR_LIBELLE } from "../constantes/errors.js";
@@ -15,11 +15,11 @@ const inscription = async (req) => {
             email: req.body.emailI,
             password: passwordHashed
         };
-        const emailUsed = await UserRepository.findByEmail(user.email);
+        const emailUsed = await UsersRepository.findByEmail(user.email);
         if (emailUsed !== 0) {
             throw new Error(ERROR_LIBELLE.EMAIL_ALREADY_EXIST);
         } else {
-            await UserRepository.add(user);
+            await UsersRepository.add(user);
         }
     } catch (error) {
         throw new Error(error.message);
@@ -28,7 +28,7 @@ const inscription = async (req) => {
 
 const login = async (req) => {
     try {
-        const user = await UserRepository.findByEmail(req.body.emailC);
+        const user = await UsersRepository.findByEmail(req.body.emailC);
         if (user === 0) {
             throw new Error(ERROR_LIBELLE.AUTHENTIFICATION_FAIL);
         } else {
