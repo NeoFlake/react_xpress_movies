@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { LIBELLE, ACCOUNT_MODE } from "../../constantes/account.constantes";
+import { yupResolver } from '@hookform/resolvers/yup';
+import inscriptionSchema from "../../validators/inscription.validator.js";
 import "./Account.css";
 
 export default function Account() {
@@ -12,9 +14,34 @@ export default function Account() {
   const [pageTitle, setPageTitle] = useState("");
   const [errors, setErrors] = useState([]);
 
-  // handleSubmit : Gérer la soumission du formulaire (en évitant le re-render)
-  // register : Permet de mapper les inputs et les clés de schéma de validation
-  const { handleSubmit, register, formState: { formError }, reset } = useForm();
+  // Gestion du formulaire d'inscription
+  const {
+    handleSubmit: handleSubmitInscription,
+    register: registerInscription,
+    reset: resetInscription,
+    formState: { errors: errorsInscription }
+  } = useForm({
+    resolver: yupResolver(inscriptionSchema),
+    mode: "onChange"
+  });
+
+  const sendInscription = (data) => {
+    
+    resetInscription();
+  };
+
+  // Gestion du formulaire de connexion
+  const {
+    handleSubmit: handleSubmitLogin,
+    register: registerLogin,
+    reset: resetLogin,
+    formState: { errors: errorsLogin }
+  } = useForm();
+
+  const sendLogin = (data) => {
+    console.log("Login :", data);
+    resetLogin();
+  };
 
   // Permet de mettre à jour le titre de la page lors de la connexion
   useEffect(() => {
@@ -33,22 +60,22 @@ export default function Account() {
           {
             mode == ACCOUNT_MODE.INSCRIPTION ?
               /* Formulaire d'inscription */
-              <form method="post" className="row">
+              <form method="post" className="row" onSubmit={handleSubmitInscription(sendInscription)}>
                 <div className="mb-3">
                   <label htmlFor="lastname" className="form-label">{ LIBELLE.FORM.LASTNAME }</label>
-                  <input type="text" className="form-control" id="lastname" name="lastname" />
+                  <input type="text" className="form-control" id="lastname" {...registerInscription("lastname")}  />
                 </div>
                 <div className="mb-3">
                   <label htmlFor="firstname" className="form-label">{ LIBELLE.FORM.FIRSTNAME }</label>
-                  <input type="text" className="form-control" id="firstname" name="firstname" />
+                  <input type="text" className="form-control" id="firstname" {...registerInscription("firstname")} />
                 </div>
                 <div className="mb-3">
                   <label htmlFor="email" className="form-label">{ LIBELLE.FORM.EMAIL }</label>
-                  <input type="email" className="form-control" id="email" name="email" autoComplete="new-email" />
+                  <input type="email" className="form-control" id="email" autoComplete="new-email" {...registerInscription("email")} />
                 </div>
                 <div className="mb-3">
                   <label htmlFor="password" className="form-label">{ LIBELLE.FORM.PASSWORD }</label>
-                  <input type="password" className="form-control" id="password" name="password" autoComplete="new-password" />
+                  <input type="password" className="form-control" id="password" autoComplete="new-password" {...registerInscription("password")} />
                   <div id="emailHelp" className="form-text">{ LIBELLE.FORM.PASSWORD_HELPER }</div>
                 </div>
                 <div className="text-center mt-3">
