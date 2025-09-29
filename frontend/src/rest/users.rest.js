@@ -1,7 +1,7 @@
 import axios from "../../axios.config.js";
 import { REST_ROAD } from "../constantes/rest.constantes.js";
 
-export const UserRest = {
+export const UsersRest = {
     inscription: async (user) => {
         try {
             await axios.post(`/${REST_ROAD.USERS}`, user);

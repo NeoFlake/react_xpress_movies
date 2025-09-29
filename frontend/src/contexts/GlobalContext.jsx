@@ -5,7 +5,9 @@ export const GlobalContext = createContext();
 
 export const Provider = ({ children }) => {
 
-    const [isAuthenticated, setIsAuthenticated] = useState(false || localStorage.getItem("isAuthenticated"))
+    const [isAuthenticated, setIsAuthenticated] = useState(false || localStorage.getItem("isAuthenticated"));
+
+    const [fullFilmList, setFullFilmList] = useState([]);
 
     const [userLogged, setUserLogged] = useState(JSON.parse(localStorage.getItem("userLogged")) || {
         lastname: "",
@@ -18,7 +20,8 @@ export const Provider = ({ children }) => {
     return (
         <GlobalContext.Provider value={{
             userLogged, setUserLogged,
-            isAuthenticated, setIsAuthenticated
+            isAuthenticated, setIsAuthenticated,
+            fullFilmList, setFullFilmList
         }}>
             {children}
         </GlobalContext.Provider>

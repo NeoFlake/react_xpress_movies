@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { LIBELLE, ACCOUNT_MODE } from "../../constantes/account.constantes";
 import { ROAD } from "../../constantes/road.contantes.js";
 import { yupResolver } from '@hookform/resolvers/yup';
-import { UserRest } from "../../rest/users.rest.js";
+import { UsersRest } from "../../rest/users.rest.js";
 import inscriptionSchema from "../../validators/inscription.validator.js";
 import loginSchema from "../../validators/login.validator.js";
 import "./Account.css";
@@ -33,7 +33,7 @@ export default function Account() {
 
   const sendInscription = async (data) => {
     try {
-      await UserRest.inscription(data);
+      await UsersRest.inscription(data);
       resetInscription();
       navigate(`/${ROAD.ACCOUNT}/${ACCOUNT_MODE.LOGIN}`);
     } catch (error) {
@@ -55,7 +55,7 @@ export default function Account() {
 
   const sendLogin = async (data) => {
     try {
-      const logged = await UserRest.login(data);
+      const logged = await UsersRest.login(data);
       resetLogin();
       localStorage.setItem("isAuthenticated", true);
       const userLogged = {
