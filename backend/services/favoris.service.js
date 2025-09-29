@@ -26,4 +26,4 @@ const add = async (newFavori) => {
     }
 }
 
-export default { displayView, removeByUserAndFilmId, add }
+export default { removeByUserAndFilmId, add }

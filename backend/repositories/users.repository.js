@@ -35,7 +35,36 @@ const findAll = async () => {
 }
 
 const findByEmail = async (email) => {
-    const SELECT = `SELECT * FROM Users WHERE email=?`;
+    const SELECT = `SELECT 
+                    u.id, u.lastname, u.firstname, u.email, u.password, 
+                    COALESCE(
+                        JSON_ARRAYAGG(
+                            CASE 
+                                WHEN f.id IS NOT NULL THEN JSON_OBJECT(
+                                    'id', f.id, 
+                                    'title', f.title, 
+                                    'poster', f.poster, 
+                                    'description', f.description,
+                                    'releaseDate', f.releaseDate, 
+                                    'addedDate', f.addedDate, 
+                                    'genres', fg.genres
+                                )
+                            END
+                        ),
+                        JSON_ARRAY()
+                    ) AS favoris,
+                    u.role
+                FROM Users AS u
+                LEFT JOIN Favoris fav ON fav.userId = u.id
+                LEFT JOIN Films f ON f.id = fav.filmId
+                LEFT JOIN (
+                    SELECT fg.filmId, JSON_ARRAYAGG(g.name) AS genres
+                    FROM Film_Genre AS fg
+                    JOIN Genres g ON g.id = fg.genreId
+                    GROUP BY fg.filmId
+                ) AS fg ON fg.filmId = f.id
+                WHERE u.email = ?
+                GROUP BY u.email`;
     try {
         const resultat = await connection.query(SELECT, [email]);
         if (resultat[0].length > 0) {
@@ -45,7 +74,8 @@ const findByEmail = async (email) => {
                 firstname: resultat[0][0].firstname,
                 email: resultat[0][0].email,
                 password: resultat[0][0].password,
-                role: resultat[0][0].role
+                role: resultat[0][0].role,
+                favoris: resultat[0][0].favoris.filter(f => f !== null)
             };
         } else {
             return 0;

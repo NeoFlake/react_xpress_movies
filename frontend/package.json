@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "concurrently \"vite --open\" \"cd ../express-rest && nodemon . \"",
+    "dev": "concurrently \"vite --open\" \"cd ../backend && nodemon . \"",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview"

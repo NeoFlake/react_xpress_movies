@@ -50,7 +50,7 @@ const findById = async (req, res) => {
 
 const login = async (req, res) => {
     try {
-        const user = await UsersService.add(req.body);
+        const user = await UsersService.login(req.body);
         return res
             .status(200)
             .json(user);
@@ -77,7 +77,8 @@ const add = async (req, res) => {
     try {
         await UsersService.add(req.body);
         return res
-            .status(200);
+            .status(200)
+            .json({ message: "User added" });;
     } catch (error) {
         if (error.message === ERROR_LIBELLE.EMAIL_ALREADY_EXIST) {
             return res

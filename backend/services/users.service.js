@@ -1,4 +1,4 @@
-import UsersRepository from "../repositories/users.repository";
+import UsersRepository from "../repositories/users.repository.js";
 import bcrypt from 'bcrypt';
 import { ERROR_LIBELLE } from "../constantes/errors.js";
 
@@ -37,7 +37,13 @@ const login = async (credentials) => {
             throw new Error(ERROR_LIBELLE.AUTHENTIFICATION_FAIL);
         } else {
             if (bcrypt.compareSync(credentials.password, user.password)) {
-                return user;
+                return {
+                    lastname: user.lastname,
+                    firstname: user.firstname,
+                    email: user.email,
+                    role: user.role,
+                    favoris: user.favoris
+                };
             } else {
                 throw new Error(ERROR_LIBELLE.AUTHENTIFICATION_FAIL);
             };
@@ -50,7 +56,7 @@ const login = async (credentials) => {
 const add = async (user) => {
     try {
         const emailUsed = await UsersRepository.findByEmail(user.email);
-        if (emailUsed !== 0) {
+        if (emailUsed != 0) {
             throw new Error(ERROR_LIBELLE.EMAIL_ALREADY_EXIST);
         } else {
             const passwordHashed = await bcrypt.hash(user.password, saltRounds);
@@ -61,6 +67,7 @@ const add = async (user) => {
                 password: passwordHashed
             };
             await UsersRepository.add(newUser);
+            return "user Added";
         }
     } catch (error) {
         throw new Error(error.message);

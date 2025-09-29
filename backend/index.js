@@ -5,8 +5,17 @@ import films from "./routes/films.route.js";
 import users from "./routes/users.route.js";
 import favoris from "./routes/favoris.route.js";
 import ROAD_LIBELLE from "./constantes/roads.js";
+import cors from "cors";
 
 const app = express();
+
+app.use(express.json());
+
+app.use(cors({
+    origin: "*",
+    methods: ["GET", "POST", "DELETE", "PUT"],
+    allowedHeaders: ["Content-Type", "Accept", "Authorization"]
+}));
 
 // Utiliser le middleware body-parser
 app.use(express.urlencoded({extended: true}));

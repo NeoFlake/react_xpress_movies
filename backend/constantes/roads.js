@@ -1,4 +1,4 @@
-export const ROAD_LIBELLE = {
+const ROAD_LIBELLE = {
     GENRES: "/genres",
     FILMS: "/films",
     USERS: "/users",
@@ -7,3 +7,5 @@ export const ROAD_LIBELLE = {
     TITLE: "/title",
     LOGIN: "/login"
 }
+
+export default ROAD_LIBELLE;
