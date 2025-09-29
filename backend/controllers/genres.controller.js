@@ -52,7 +52,8 @@ const add = async (req, res) => {
     try {
         await GenresService.add(req.body.name);
         return res
-            .status(200);
+            .status(200)
+            .json([]);
     } catch (error) {
         if (error.message === ERROR_LIBELLE.GENRE_TITLE_ALREADY_EXIST) {
             return res
@@ -76,7 +77,8 @@ const updateById = async (req, res) => {
     try {
         await GenresService.updateById(req.body, req.params.id);
         return res
-            .status(200);
+            .status(200)
+            .json("done");
     } catch (error) {
         if (error.message === ERROR_LIBELLE.GENRE_TITLE_ALREADY_EXIST) {
             return res
@@ -100,7 +102,8 @@ const removeById = async (req, res) => {
     try {
         await GenresService.removeById(req.params.id);
         return res
-            .status(200);
+            .status(200)
+            .json("done");
     } catch (error) {
         if (error.message === ERROR_LIBELLE.REMOVE_GENRE_FAIL) {
             return res

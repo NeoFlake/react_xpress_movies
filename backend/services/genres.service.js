@@ -8,7 +8,7 @@ import { ERROR_LIBELLE } from "../constantes/errors.js";
  */
 const findAll = async () => {
     try {
-        const genres = GenresRepository.findAll();
+        const genres = await GenresRepository.findAll();
         if (genres.length > 0) {
             return genres;
         } else {
@@ -49,6 +49,7 @@ const add = async (name) => {
             throw new Error(ERROR_LIBELLE.GENRE_TITLE_ALREADY_EXIST);
         } else {
             const add = await GenresRepository.add(name);
+            return "done";
             if (add === 0) {
                 throw new Error(ERROR_LIBELLE.ADD_GENRE_DB_ERROR);
             }
@@ -73,6 +74,7 @@ const updateById = async (genre, id) => {
                 if (update === false) {
                     throw new Error(ERROR_LIBELLE.ADD_GENRE_DB_ERROR);
                 }
+                return "done";
             }
         } else {
             throw new Error(ERROR_LIBELLE.TECHNICAL_ERROR_ON_SUBMISSION);
@@ -89,10 +91,11 @@ const updateById = async (genre, id) => {
  */
 const removeById = async (id) => {
     try {
-        const deleted = await GenresRepository.deleteById(id);
+        const deleted = await GenresRepository.removeById(id);
         if (deleted === false) {
             throw new Error(ERROR_LIBELLE.REMOVE_GENRE_FAIL);
-        }
+        } 
+        return "done";
     } catch (error) {
         throw new Error(error.message);
     }

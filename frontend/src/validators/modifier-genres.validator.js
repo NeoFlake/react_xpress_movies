@@ -1,6 +1,11 @@
 import yup from "../config/yup.config.js";
 
 const modifyGenreSchema = yup.object().shape({
+
+    id: yup
+        .string()
+        .required(),
+
     name: yup
         .string("Genre invalide")
         .required("L'intitulé de genre est obligatoire pour la validation")

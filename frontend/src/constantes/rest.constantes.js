@@ -1,5 +1,6 @@
 export const REST_ROAD = {
     USERS: "users",
     LOGIN: "login",
-    FILMS: "films"
+    FILMS: "films",
+    GENRES: "genres"
 };
