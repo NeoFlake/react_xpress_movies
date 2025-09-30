@@ -141,7 +141,7 @@ const deleteById = async (id) => {
         const deleted = await connection.query(DELETE, [id]);
         if (deleted[0].affectedRows > 0) {
             const deletedFilmGenres = await Film_Genre_Repository.removeByFilmId(id);
-            if (deletedFilmGenres[0].affectedRows > 0) {
+            if (deletedFilmGenres > 0) {
                 return deleted[0].affectedRows;
             } else {
                 throw new Error(DB_ERROR.DELETE_FILM);
@@ -150,7 +150,7 @@ const deleteById = async (id) => {
             throw new Error(DB_ERROR.DELETE_FILM);
         }
     } catch (error) {
-        throw new Error(DB_ERROR.DELETE_FILM);
+        throw new Error(error.message);
     }
 }
 

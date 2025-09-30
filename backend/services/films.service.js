@@ -130,6 +130,7 @@ const removeById = async (id) => {
         if (deleted === 0) {
             throw new Error(ERROR_LIBELLE.REMOVE_FILM_FAIL);
         }
+        return "film removed";s
     } catch (error) {
         throw new Error(error.message);
     }

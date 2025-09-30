@@ -55,9 +55,25 @@ export default function Admin() {
             await FilmsRest.add(filmToAdd);
             resetAddFilm();
             setFilmsErrors(null);
-            //fetchFilms();
+            fetchFilms();
         } catch (error) {
             resetAddFilm();
+            setFilmsErrors(error);
+        }
+    };
+
+    const displayFilmUpdateForm = (film) => {
+
+    };
+
+    // Suppression d'un film
+
+    const removeFilm = async (id) => {
+        try {
+            await FilmsRest.removeById(id);
+            setFilmsErrors(null);
+            fetchFilms();
+        } catch (error) {
             setFilmsErrors(error);
         }
     };
@@ -93,21 +109,6 @@ export default function Admin() {
             await GenresRest.add(data);
             resetAddGenre();
             setGenreErrors(null);
-            fetchGenres();
-        } catch (error) {
-            resetAddGenre();
-            setGenreErrors(error);
-        }
-    };
-
-    const displayFilmUpdateForm = (film) => {
-
-    };
-
-    const removeFilm = async (id) => {
-        try {
-            await FilmsRest.remove(data);
-            setFilmsErrors(null);
             fetchGenres();
         } catch (error) {
             resetAddGenre();
@@ -154,7 +155,13 @@ export default function Admin() {
         }
     }
 
-    // Mise à jour du genre d'un film
+    // Switch entre les formulaires de gestion des genres de film
+
+    const displayAddGenreForm = () => {
+        resetUpdateGenre();
+        setGenresFormMode(LIBELLE.GENRE_FORM_LIBELLE.MODE.ADD);
+        setDisabledGenreAction(false);
+    }
 
     const displayUpdateGenreForm = (genre) => {
         setGenresFormMode(LIBELLE.GENRE_FORM_LIBELLE.MODE.UPDATE);
@@ -164,14 +171,6 @@ export default function Admin() {
             name: genre.name
         });
         setDisabledGenreAction(true);
-    }
-
-    // Switch entre les formulaires de gestion des genres de film
-
-    const displayAddGenreForm = () => {
-        resetUpdateGenre();
-        setGenresFormMode(LIBELLE.GENRE_FORM_LIBELLE.MODE.ADD);
-        setDisabledGenreAction(false);
     }
 
     // FindAll Genres

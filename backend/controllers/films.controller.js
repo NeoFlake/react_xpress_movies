@@ -126,7 +126,8 @@ const removeById = async (req, res) => {
     try {
         await FilmsService.removeById(req.params.id);
         return res
-            .status(200);
+            .status(200)
+            .json("film removed");
     } catch (error) {
         return res
             .status(500)
