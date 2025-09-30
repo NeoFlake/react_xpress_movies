@@ -1,5 +1,4 @@
 import FilmsRepository from "../repositories/films.repository.js";
-import DateService from "./date.service.js";
 import { ERROR_LIBELLE } from "../constantes/errors.js";
 
 /**
@@ -10,7 +9,6 @@ import { ERROR_LIBELLE } from "../constantes/errors.js";
 const findAll = async () => {
     try {
         let films = await FilmsRepository.findAll();
-        films = DateService.formatterDateFilm(films);
         if (films.length > 0) {
             return films;
         } else {
@@ -29,7 +27,6 @@ const findAll = async () => {
 const findById = async (id) => {
     try {
         const film = FilmsRepository.findById(id);
-        film = DateService.formatterDateFilm(film);
         if (film.length > 0) {
             return film;
         } else {
@@ -48,7 +45,6 @@ const findById = async (id) => {
 const findLikeByTitle = async (title) => {
     try {
         const films = FilmsRepository.findLikeByTitle(title);
-        films = DateService.formatterDateFilm(films);
         if (films.length > 0) {
             return films;
         } else {

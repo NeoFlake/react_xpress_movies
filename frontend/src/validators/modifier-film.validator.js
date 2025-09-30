@@ -1,6 +1,11 @@
 import yup from "../config/yup.config.js";
 
 const modifyFilmSchema = yup.object().shape({
+
+    id: yup
+    .string()
+    .required(),
+
     title: yup
         .string("Titre invalide")
         .required("L'intitulé du film est obligatoire pour la validation")

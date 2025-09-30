@@ -2,6 +2,7 @@ import "./FilmCard.css";
 import { useLocation } from "react-router-dom";
 import { ROLES } from "../../constantes/roles.constantes";
 import { LIBELLE } from "../../constantes/film-card.constantes";
+import DateService from "../../services/date.service.js";
 
 export default function FilmCard({
     films,
@@ -44,7 +45,7 @@ export default function FilmCard({
                                     </span>
                                 })
                             }
-                            <p className="card-text"> {`${LIBELLE.RELEASE_DATE}${film.releaseDate}`}</p>
+                            <p className="card-text"> {`${LIBELLE.RELEASE_DATE} ${DateService.formatToHumanReading(film.releaseDate)}}`}</p>
                             <p className="card-text resume-text mb-3 cursor-pointer" id={`description-film-${film.id}`}>
                                 {film.description}
                             </p>

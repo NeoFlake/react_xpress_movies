@@ -4,9 +4,11 @@ import { LIBELLE } from "../../constantes/admin.constantes";
 import { yupResolver } from '@hookform/resolvers/yup';
 import { GenresRest } from "../../rest/genres.rest.Js";
 import { FilmsRest } from "../../rest/films.rest.js";
+import DateService from "../../services/date.service.js";
 import genreSchema from "../../validators/genres.validator.js";
 import modifyGenreSchema from "../../validators/modifier-genres.validator.js";
 import filmSchema from "../../validators/film.validator.js";
+import modifyFilmSchema from "../../validators/modifier-film.validator.js";
 import "./Admin.css";
 import { GlobalContext } from "../../contexts/GlobalContext.jsx";
 import FilmCard from "../../components/FilmCard/FilmCard.jsx";
@@ -62,8 +64,54 @@ export default function Admin() {
         }
     };
 
-    const displayFilmUpdateForm = (film) => {
+    // Gestion du formulaire de modification de film
+    const {
+        handleSubmit: handleSubmitUpdateFilm,
+        register: registerUpdateFilm,
+        reset: resetUpdateFilm,
+        formState: { errors: errorsUpdateFilm }
+    } = useForm({
+        resolver: yupResolver(modifyFilmSchema),
+        mode: "onChange"
+    });
 
+    const sendUpdateFilm = async (data) => {
+        try {
+            await GenresRest.updateById(data, data.id);
+            resetUpdateGenre();
+            setGenreErrors(null);
+            setGenresFormMode(LIBELLE.GENRE_FORM_LIBELLE.MODE.ADD);
+            resetUpdateForm();
+            fetchGenres();
+            setDisabledGenreAction(false);
+        } catch (error) {
+            resetUpdateGenre();
+            setGenreErrors(error);
+            setDisabledGenreAction(false);
+        }
+    };
+
+    // Permet de switcher entre les formulaires de gestion de film
+
+    const displayAddFilmForm = () => {
+        resetUpdateFilm();
+        resetAddFilm();
+        setFilmsFormMode(LIBELLE.GENRE_FORM_LIBELLE.MODE.ADD);
+        // setDisabledFilmAction(false); -> à mettre en place pour éviter les douilles ;)
+    }
+
+    const displayFilmUpdateForm = (film) => {
+        setFilmsFormMode(LIBELLE.FILM_FORM_LIBELLE.MODE.UPDATE);
+        resetAddFilm();
+        resetUpdateFilm({
+            id: film.id,
+            title: film.title,
+            poster: film.poster,
+            genres: film.genres,
+            releaseDate: DateService.formatToService(film.releaseDate),
+            description: film.description
+        });
+        //setDisabledFilmAction(true); -> à mettre en place pour éviter les douilles ;p
     };
 
     // Suppression d'un film
@@ -265,15 +313,15 @@ export default function Admin() {
                             </form>
                             : /* Formulaire de modification d'un film */
                             <div>
-                                <form method="post" action="<%= `/${VIEW_LIBELLE.ADMINISTRATION}/${VIEW_LIBELLE.FILMS}/${films.filmToModify.id}` %>" className="row col-6">
-                                    <input type="hidden" name="id" value="<%= films.filmToModify.id %>" />
+                                <form method="post" className="row col-6" onSubmit={handleSubmitUpdateFilm(sendUpdateFilm)}>
+                                    <input type="hidden" name="id" {...registerUpdateFilm("id")} />
                                     <div className="mb-3 col-8">
                                         <label htmlFor="title" className="form-label">{LIBELLE.FILM_FORM_LIBELLE.TITLE}</label>
-                                        <input type="text" className="form-control" id="title" name="title" />
+                                        <input type="text" className="form-control" id="title" {...registerUpdateFilm("title")} />
                                     </div>
                                     <div className="mb-3 col-8">
                                         <label htmlFor="genres" className="form-label">{LIBELLE.FILM_FORM_LIBELLE.GENRE_SELECTION}</label>
-                                        <select className="form-select" id="genres" name="genres[]" multiple>
+                                        <select className="form-select" id="genres" {...registerUpdateFilm("genres")} multiple>
                                             {
                                                 genres && genres.length > 0 &&
                                                 genres.map(genre => {
@@ -286,22 +334,22 @@ export default function Admin() {
                                     </div>
                                     <div className="mb-3 col-8">
                                         <label htmlFor="poster" className="form-label">{LIBELLE.FILM_FORM_LIBELLE.POSTER}</label>
-                                        <input type="text" className="form-control" id="poster" name="poster" />
+                                        <input type="text" className="form-control" id="poster" {...registerUpdateFilm("poster")} />
                                         <div id="posterHelp" className="form-text">{LIBELLE.FILM_FORM_LIBELLE.POSTER_HELPER}</div>
                                     </div>
                                     <div className="mb-3 col-8">
                                         <label htmlFor="releaseDate" className="form-label">{LIBELLE.FILM_FORM_LIBELLE.RELEASE_DATE}</label>
-                                        <input type="date" className="form-control" id="releaseDate" name="releaseDate" />
+                                        <input type="date" className="form-control" id="releaseDate" {...registerUpdateFilm("releaseDate")} />
                                     </div>
                                     <div className="mb-3 col-8">
                                         <label htmlFor="description" className="form-label">{LIBELLE.FILM_FORM_LIBELLE.DESCRIPTION}</label>
-                                        <textarea type="text" className="form-control" id="description" name="description" rows="3"></textarea>
+                                        <textarea type="text" className="form-control" id="description" {...registerUpdateFilm("description")} rows="3"></textarea>
                                     </div>
                                     <div className="col-12 row ">
                                         <button type="submit" className="btn btn-primary col-5 ms-3">
                                             {LIBELLE.FILM_FORM_LIBELLE.UPDATE_ACTION_BUTTON}
                                         </button>
-                                        <button className="btn btn-danger col-5 ms-3">
+                                        <button className="btn btn-danger col-5 ms-3" onClick={() => displayAddFilmForm()}>
                                             {LIBELLE.FILM_FORM_LIBELLE.CANCEL_BUTTON}
                                         </button>
                                     </div>
