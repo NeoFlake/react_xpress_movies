@@ -5,10 +5,28 @@ export const FilmsRest = {
 
     findAll: async () => {
         try {
-            const films = await axios.get(`/${REST_ROAD.FILMS}`);
+            const films = (await axios.get(`/${REST_ROAD.FILMS}`)).data;
             return films;
         } catch (error) {
             throw Error(error.response.data.message);
+        }
+    },
+
+    add: async (film) => {
+        try {
+            await axios.post(`/${REST_ROAD.FILMS}`, film);
+            return "done";
+        } catch (error) {
+            throw Error(error.response.data.message);
+        }
+    },
+
+    removeById: async (id) => {
+        try {
+            await axios.delete(`/${REST_ROAD.FILMS}/${id}`);
+            return "deleted";
+        } catch (error) {
+            throw Error(error.reponse.data.message);
         }
     }
     

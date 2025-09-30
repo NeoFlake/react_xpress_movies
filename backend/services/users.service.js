@@ -38,6 +38,7 @@ const login = async (credentials) => {
         } else {
             if (bcrypt.compareSync(credentials.password, user.password)) {
                 return {
+                    id: user.id,
                     lastname: user.lastname,
                     firstname: user.firstname,
                     email: user.email,

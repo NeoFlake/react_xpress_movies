@@ -59,6 +59,7 @@ export default function Account() {
       resetLogin();
       localStorage.setItem("isAuthenticated", true);
       const userLogged = {
+        id: logged.id,
         lastname: logged.lastname,
         firstname: logged.firstname,
         email: logged.email,

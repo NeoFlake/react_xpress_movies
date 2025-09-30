@@ -4,8 +4,7 @@ import { REST_ROAD } from "../constantes/rest.constantes.js";
 export const UsersRest = {
     inscription: async (user) => {
         try {
-            await axios.post(`/${REST_ROAD.USERS}`, user);
-            return "inscription done";
+            return await axios.post(`/${REST_ROAD.USERS}`, user);
         } catch (error) {
             throw Error(error.response.data.message);
         }

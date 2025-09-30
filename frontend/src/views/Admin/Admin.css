@@ -2,10 +2,16 @@
   cursor: default !important;
 }
 
-.list-group-item:hover .action {
+.list-group-item:hover .action, .disabled-actions:hover .unactivated {
   display: block !important;
 }
 
-.list-group-item:hover .unactivated {
-  display: none;
+.list-group-item:hover .unactivated, .disabled-actions:hover .action {
+  display: none !important;
 }
+
+.disabled-actions {
+  pointer-events: none;
+  opacity: 0.6;
+}
+

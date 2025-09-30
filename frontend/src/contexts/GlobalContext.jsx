@@ -10,6 +10,7 @@ export const Provider = ({ children }) => {
     const [fullFilmList, setFullFilmList] = useState([]);
 
     const [userLogged, setUserLogged] = useState(JSON.parse(localStorage.getItem("userLogged")) || {
+        id: 0,
         lastname: "",
         firstname: "",
         email: "",

@@ -77,7 +77,8 @@ const add = async (req, res) => {
     try {
         await FilmsService.add(req.body);
         return res
-            .status(200);
+            .status(200)
+            .json("Film added");
     } catch (error) {
         if (error.message === ERROR_LIBELLE.FILM_TITLE_ALREADY_EXIST) {
             return res

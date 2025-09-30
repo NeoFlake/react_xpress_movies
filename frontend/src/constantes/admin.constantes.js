@@ -10,7 +10,11 @@ export const LIBELLE = {
         DESCRIPTION: "Pitch du film",
         UPDATE_ACTION_BUTTON: "Modifier le film",
         ADD_ACTION_BUTTON: "Ajouter un film",
-        CANCEL_BUTTON: "Annuler"
+        CANCEL_BUTTON: "Annuler",
+        MODE: {
+            ADD: "add",
+            UPDATE: "update"
+        }
     },
     GENRE_FORM_LIBELLE: {
         FORM_TITLE: "Gestion des Genres de film",
