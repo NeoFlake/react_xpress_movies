@@ -1,0 +1,22 @@
+#full-poster-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(28, 28, 28, 0.95);
+    display: flex;          
+    justify-content: center;
+    align-items: center;
+    z-index: 1050;
+    cursor: pointer;
+}
+
+#full-poster-modal-img {
+    border-radius: 5px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+    max-height: 80vh;
+    max-width: 80vw;
+    width: auto;
+    height: auto;
+}
