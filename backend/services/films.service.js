@@ -93,7 +93,7 @@ const updateById = async (film, id) => {
             if (filmOnBase.title !== film.title && titleKnown) {
                 throw new Error(ERROR_LIBELLE.FILM_TITLE_ALREADY_EXIST);
             } else {
-                const update = await FilmsRepository.updateById(req.params.id, {
+                const update = await FilmsRepository.updateById(film.id, {
                     id: film.id,
                     title: film.title,
                     poster: film.poster,
@@ -106,6 +106,7 @@ const updateById = async (film, id) => {
                 if (update === 0) {
                     throw new Error(ERROR_LIBELLE.UPDATE_FILM_FAIL);
                 }
+                return "film updated";
             }
         } else {
             throw new Error(ERROR_LIBELLE.TECHNICAL_ERROR_ON_SUBMISSION);

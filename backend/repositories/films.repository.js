@@ -112,9 +112,9 @@ const add = async (film) => {
 }
 
 const updateById = async (id, film) => {
-    const UPDATE = "UPDATE Films SET title=?, poster=?, releaseDate=?, description=?, addedDate=?, adminId=? WHERE id=?";
+    const UPDATE = "UPDATE Films SET title=?, poster=?, releaseDate=?, description=?, addedDate=? WHERE id=?";
     try {
-        const resultat = await connection.query(UPDATE, [film.title, film.poster, film.releaseDate, film.description, film.addedDate, film.adminId, id]);
+        const resultat = await connection.query(UPDATE, [film.title, film.poster, film.releaseDate, film.description, film.addedDate, id]);
         if (resultat[0].affectedRows > 0) {
             const removeGenres = await Film_Genre_Repository.removeByFilmId(film.id);
             if (removeGenres > 0) {

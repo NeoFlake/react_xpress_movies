@@ -28,6 +28,15 @@ export const FilmsRest = {
         } catch (error) {
             throw Error(error.reponse.data.message);
         }
+    },
+
+    updateById: async (film, id) => {
+        try {
+            await axios.put(`/${REST_ROAD.FILMS}/${id}`, film);
+            return "updated";
+        } catch (error) {
+            throw Error(error.response.data.message);
+        }
     }
     
 } 

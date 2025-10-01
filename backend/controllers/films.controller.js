@@ -102,7 +102,8 @@ const updateById = async (req, res) => {
     try {
         await FilmsService.updateById(req.body, req.params.id);
         return res
-            .status(200);
+            .status(200)
+            .json("film updated");
     } catch (error) {
         if (error.message === ERROR_LIBELLE.FILM_TITLE_ALREADY_EXIST) {
             return res

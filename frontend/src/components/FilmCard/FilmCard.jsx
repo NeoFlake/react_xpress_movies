@@ -7,6 +7,7 @@ import DateService from "../../services/date.service.js";
 export default function FilmCard({
     films,
     userLogged,
+    disableFilmAction = false,
     onDisplayUpdateForm = () => { },
     onRemove = () => { },
     onAddFavori = () => { }, }) {
@@ -25,6 +26,8 @@ export default function FilmCard({
         onAddFavori(id);
     };
 
+    console.log(films);
+
     return (
         /* <link rel="stylesheet" href="../css/film-card.css" />
         <script defer src="../js/expand-film-resume.js"></script>
@@ -40,12 +43,12 @@ export default function FilmCard({
                             </h5>
                             {
                                 film.genres.map(genre => {
-                                    <span className="badge bg-primary text-bg-primary mb-2">
+                                    return <span key={genre} className="badge bg-primary text-bg-primary mb-2 me-1">
                                         {genre}
                                     </span>
                                 })
                             }
-                            <p className="card-text"> {`${LIBELLE.RELEASE_DATE} ${DateService.formatToHumanReading(film.releaseDate)}}`}</p>
+                            <p className="card-text"> {`${LIBELLE.RELEASE_DATE} ${DateService.formatToHumanReading(film.releaseDate)}`}</p>
                             <p className="card-text resume-text mb-3 cursor-pointer" id={`description-film-${film.id}`}>
                                 {film.description}
                             </p>
@@ -72,10 +75,10 @@ export default function FilmCard({
                                         /* Zone d'affichage réservé à la page admin */
                                         location.pathname === "/admin" ? (
                                             <>
-                                                <button className="btn btn-primary me-2" onClick={() => displayUpdateForm(film)}>
+                                                <button disabled={disableFilmAction} className="btn btn-primary me-2" onClick={() => displayUpdateForm(film)}>
                                                     {LIBELLE.UPDATE_BUTTON}
                                                 </button>
-                                                <button className="btn btn-danger" onClick={() => remove(film.id)}>
+                                                <button disabled={disableFilmAction} className="btn btn-danger" onClick={() => remove(film.id)}>
                                                     {LIBELLE.DELETE_BUTTON}
                                                 </button>
                                             </>

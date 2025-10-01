@@ -13,7 +13,7 @@ const filmSchema = yup.object().shape({
         .required("Un genre minimum est obligatoire pour la validation"),
 
     poster: yup
-        .string("Lien poster invalide")
+        .string("Lien affiche invalide")
         .required("L'affiche du film est obligatoire pour la validation")
         .matches(/^(https?:\/\/[^\s]+?\.(?:jpg|jpeg|png|gif|webp|svg))(?:\?.*)?$/i, "l'adresse de l'affiche n'est pas valide"),
 

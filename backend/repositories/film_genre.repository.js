@@ -17,7 +17,6 @@ const add = async (filmGenre) => {
 
 const addMultiple = async (filmId, genreIds) => {
     const values = genreIds.map(genreId => [genreId, filmId]);
-    
     const INSERT = "INSERT INTO Film_Genre (genreId, filmId) VALUES ?";
     try {
         const [resultat] = await connection.query(INSERT, [values]);
