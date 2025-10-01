@@ -1,6 +1,7 @@
 import { createContext, useState, useEffect } from "react";
 import { GenresRest } from "../rest/genres.rest.js";
 import { FilmsRest } from "../rest/films.rest.js";
+import { UsersRest } from "../rest/users.rest.js";
 
 export const GlobalContext = createContext();
 
@@ -38,12 +39,26 @@ export const Provider = ({ children }) => {
         }
     };
 
+    const fetchUser = async () => {
+        try {
+            const user = await UsersRest.findById(userLogged.id);
+            localStorage.setItem("userLogged", JSON.stringify(user));
+            setUserLogged(user);
+        } catch(error) {
+            console.log(error.message);
+        }
+    }
+
     const updatedGenres = () => {
         fetchGenres();
     };
 
     const updatedFilms = () => {
         fetchFilms();
+    };
+
+    const updatedUser = () => {
+        fetchUser();
     }
 
     useEffect(() => {
@@ -55,7 +70,7 @@ export const Provider = ({ children }) => {
         <GlobalContext.Provider value={{
             userLogged, setUserLogged,
             isAuthenticated, setIsAuthenticated,
-            films, genres, updatedGenres, updatedFilms
+            films, genres, updatedGenres, updatedFilms, updatedUser
         }}>
             {children}
         </GlobalContext.Provider>

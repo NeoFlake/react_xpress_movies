@@ -21,6 +21,7 @@ const add = async (newFavori) => {
         if (favori === 0) {
             throw new Error(ERROR_LIBELLE.NEW_FAVORI_ERROR);
         }
+        return "added";
     } catch (error) {
         throw new Error(error.message);
     }

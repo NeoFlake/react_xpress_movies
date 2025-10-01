@@ -17,5 +17,14 @@ export const UsersRest = {
         } catch (error) {
             throw Error(error.response.data.message);
         }
+    },
+
+    findById: async (id) => {
+        try {
+            const user = await axios.get(`/${REST_ROAD.USERS}/${id}`);
+            return user.data;
+        } catch (error) {
+            throw Error(error.response.data.message);
+        }
     }
 } 

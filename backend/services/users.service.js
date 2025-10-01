@@ -19,9 +19,9 @@ const findAll = async () => {
 
 const findById = async (id) => {
     try {
-        const user = UsersRepository.findById(id);
-        if (user.length > 0) {
-            return film;
+        const user = await UsersRepository.findById(id);
+        if (user) {
+            return user;
         } else {
             throw new Error("Aucun utilisateur trouvé avec cet identifiant");
         }

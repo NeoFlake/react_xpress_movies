@@ -19,14 +19,12 @@ const remove = async (req, res) => {
     }
 }
 
-// .post("/", FavorisController.add)
-//     .delete("/", FavorisController.removeByUserAndFilmId);
-
 const add = async (req, res) => {
     try {
         await FavorisService.add(req.body);
         return res
-            .status(200);
+            .status(200)
+            .json("added");
     } catch (error) {
         if (error.message === ERROR_LIBELLE.NEW_FAVORI_ERROR) {
             return res

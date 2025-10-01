@@ -6,10 +6,11 @@ import searchByTitleSchema from "../../validators/search-film-title.validator.js
 import { FilmsRest } from "../../rest/films.rest.js";
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { FavorisRest } from "../../rest/favoris.rest.js";
 
 export default function Homepage() {
 
-    const { films, userLogged } = useContext(GlobalContext);
+    const { films, userLogged, updatedUser } = useContext(GlobalContext);
 
     const [searchError, setSearchError] = useState(null);
     const [filmsToDisplay, setFilmsToDisplay] = useState([]);
@@ -31,6 +32,18 @@ export default function Homepage() {
             setFilmsToDisplay(searchedFilms.data);
         } catch (error) {
             resetSearchFilm();
+            setSearchError(error);
+        }
+    };
+
+    const addFavori = async (id) => {
+        try {
+            await FavorisRest.add({
+                userId: userLogged.id,
+                filmId: id
+            });
+            updatedUser();
+        } catch (error) {
             setSearchError(error);
         }
     };
@@ -70,7 +83,7 @@ export default function Homepage() {
             { /** Zone d'apparition des films */
                 filmsToDisplay && filmsToDisplay.length > 0 ?
                     <div>
-                        <FilmCard films={filmsToDisplay} userLogged={userLogged}></FilmCard>
+                        <FilmCard films={filmsToDisplay} userLogged={userLogged} onAddFavori={addFavori}></FilmCard>
                     </div> :
                     null
             }
