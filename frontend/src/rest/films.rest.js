@@ -1,4 +1,5 @@
 import axios from "../../axios.config.js";
+import { LIBELLE } from "../constantes/errors.constantes.js";
 import { REST_ROAD } from "../constantes/rest.constantes.js";
 
 export const FilmsRest = {
@@ -37,6 +38,18 @@ export const FilmsRest = {
         } catch (error) {
             throw Error(error.response.data.message);
         }
-    }
+    },
+
+    findLikeByTitle: async (title) => {
+        try {
+            const films = await axios.get(`${REST_ROAD.FILMS}/${REST_ROAD.TITLE}/${title}`);
+            if(films.data.length === 0){
+                throw Error(LIBELLE.SEARCH_WITHOUT_RESULT);
+            }
+            return films;
+        } catch (error) {
+            throw Error(error.response.data.message);
+        }
+    } 
     
 } 

@@ -80,7 +80,7 @@ const findLikeByTitle = async (title) => {
         if (resultat[0].length > 0) {
             return resultat[0];
         } else {
-            throw new Error(DB_ERROR.NO_FILM_BY_ID);
+            return [];
         }
     } catch (error) {
         if (error.message !== DB_ERROR.NO_FILM_BY_ID) {

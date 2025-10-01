@@ -1,5 +1,6 @@
-import { createContext, useState } from "react";
-import { ROLES } from "../constantes/roles.constantes.js";
+import { createContext, useState, useEffect } from "react";
+import { GenresRest } from "../rest/genres.rest.js";
+import { FilmsRest } from "../rest/films.rest.js";
 
 export const GlobalContext = createContext();
 
@@ -7,7 +8,8 @@ export const Provider = ({ children }) => {
 
     const [isAuthenticated, setIsAuthenticated] = useState(false || localStorage.getItem("isAuthenticated"));
 
-    const [fullFilmList, setFullFilmList] = useState([]);
+    const [films, setFilms] = useState([]);
+    const [genres, setGenres] = useState([]);
 
     const [userLogged, setUserLogged] = useState(JSON.parse(localStorage.getItem("userLogged")) || {
         id: 0,
@@ -18,11 +20,42 @@ export const Provider = ({ children }) => {
         favoris: [],
     });
 
+    const fetchFilms = async () => {
+        try {
+            const filmsListe = await FilmsRest.findAll();
+            setFilms(filmsListe);
+        } catch (error) {
+            setFilmsErrors(error);
+        }
+    };
+
+    const fetchGenres = async () => {
+        try {
+            const genresListe = await GenresRest.findAll();
+            setGenres(genresListe);
+        } catch (error) {
+            setGenreErrors(error.message);
+        }
+    };
+
+    const updatedGenres = () => {
+        fetchGenres();
+    };
+
+    const updatedFilms = () => {
+        fetchFilms();
+    }
+
+    useEffect(() => {
+        fetchFilms();
+        fetchGenres();
+    }, []);
+
     return (
         <GlobalContext.Provider value={{
             userLogged, setUserLogged,
             isAuthenticated, setIsAuthenticated,
-            fullFilmList, setFullFilmList
+            films, genres, updatedGenres, updatedFilms
         }}>
             {children}
         </GlobalContext.Provider>

@@ -44,7 +44,7 @@ const findById = async (id) => {
  */
 const findLikeByTitle = async (title) => {
     try {
-        const films = FilmsRepository.findLikeByTitle(title);
+        const films = await FilmsRepository.findLikeByTitle(title);
         if (films.length > 0) {
             return films;
         } else {

@@ -3,16 +3,13 @@ import { useForm } from "react-hook-form";
 import { LIBELLE } from "../../constantes/admin.constantes";
 import { yupResolver } from '@hookform/resolvers/yup';
 import { GenresRest } from "../../rest/genres.rest.Js";
-import { FilmsRest } from "../../rest/films.rest.js";
-import DateService from "../../services/date.service.js";
 import genreSchema from "../../validators/genres.validator.js";
 import modifyGenreSchema from "../../validators/modifier-genres.validator.js";
-import filmSchema from "../../validators/film.validator.js";
-import modifyFilmSchema from "../../validators/modifier-film.validator.js";
 import { GlobalContext } from "../../contexts/GlobalContext.jsx";
-import FilmCard from "../../components/FilmCard/FilmCard.jsx";
 
-export default function GenresAdmin({ genres, updatedGenres }) {
+export default function GenresAdmin() {
+
+    const { genres, updatedGenres } = useContext(GlobalContext);
 
     // Ensemble des éléments du state nécessaire pour la gestion des genres d'un film
     const [genresFormMode, setGenresFormMode] = useState();

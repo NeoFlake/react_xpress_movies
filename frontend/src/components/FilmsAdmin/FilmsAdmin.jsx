@@ -9,7 +9,9 @@ import modifyFilmSchema from "../../validators/modifier-film.validator.js";
 import { GlobalContext } from "../../contexts/GlobalContext.jsx";
 import FilmCard from "../../components/FilmCard/FilmCard.jsx";
 
-export default function FilmsAdmin({ films, genres, updatedFilms }) {
+export default function FilmsAdmin() {
+
+    const { genres, films, updatedFilms } = useContext(GlobalContext);
 
     // Ensemble des éléments du state nécessaire pour la gestion des films
     const [filmsFormMode, setFilmsFormMode] = useState();
@@ -134,13 +136,6 @@ export default function FilmsAdmin({ films, genres, updatedFilms }) {
                 <h3 className="col-5 text-decoration-underline">{LIBELLE.TITLE_FILM_MANAGEMENT}</h3>
             </div>
             {/* Zone de display des films */}
-            {
-                films && films.length > 0 ?
-                    films.map(film => {
-                        <div>{film.title}</div>
-                    }) :
-                    null
-            }
             {
                 films && films.length > 0 ?
                     <div>
