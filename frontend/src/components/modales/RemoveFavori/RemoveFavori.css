@@ -1,0 +1,82 @@
+/* Overlay */
+.react-modal-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 10vh;
+  z-index: 1050;
+}
+
+/* Dialog */
+.react-modal-dialog {
+  background: #fff;
+  border-radius: 0.5rem;
+  width: 90%;
+  max-width: 500px;
+  min-height: 200px;
+  max-height: 75vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  overflow: hidden;
+}
+
+/* Header */
+.react-modal-header {
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid #ddd;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.react-modal-title {
+  font-size: 1.25rem;
+  margin: 0;
+}
+
+.react-modal-close {
+  background: transparent;
+  border: none;
+  font-size: 1.25rem;
+  cursor: pointer;
+}
+
+/* Body */
+.react-modal-body {
+  flex: 1;
+  padding: 1rem 1.5rem;
+  overflow-y: auto;
+}
+
+/* Footer */
+.react-modal-footer {
+  padding: 1rem 1.5rem;
+  border-top: 1px solid #ddd;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+/* Buttons */
+.react-modal-btn {
+  border: none;
+  border-radius: 0.25rem;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  color: #fff;
+}
+
+.react-modal-btn-primary {
+  background-color: #FF4500;
+}
+
+.react-modal-btn-danger {
+  background-color: #DC143C;
+}

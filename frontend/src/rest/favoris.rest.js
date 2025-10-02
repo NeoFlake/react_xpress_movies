@@ -10,6 +10,15 @@ export const FavorisRest = {
         } catch (error) {
             throw Error(error.response.data.message);
         }
-    }
+    },
+
+    remove: async (favori) => {
+        try {
+            await axios.delete(`${REST_ROAD.FAVORIS}`, { data: favori });
+            return "remove";
+        } catch (error) {
+            throw Error(error.response.data.message);
+        }
+    },
 
 }

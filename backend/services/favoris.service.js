@@ -7,6 +7,7 @@ const removeByUserAndFilmId = async (favori) => {
         if (withdrawFavorite === 0) {
             throw new Error(ERROR_LIBELLE.REMOVE_FAVORI_FAIL);
         }
+        return "remove";
     } catch (error) {
         throw new Error(ERROR_LIBELLE.REMOVE_FAVORI_FAIL);
     }

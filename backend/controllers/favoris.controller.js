@@ -48,7 +48,8 @@ const removeByUserAndFilmId = async (req, res) => {
     try {
         await FavorisService.removeByUserAndFilmId(req.body);
         return res
-            .status(200);
+            .status(200)
+            .json("remove");
     } catch (error) {
         if (error.message === ERROR_LIBELLE.NEW_FAVORI_ERROR) {
             return res

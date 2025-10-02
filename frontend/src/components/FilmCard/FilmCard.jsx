@@ -14,7 +14,8 @@ export default function FilmCard({
     disableFilmAction = false,
     onDisplayUpdateForm = () => { },
     onRemove = () => { },
-    onAddFavori = () => { }, }) {
+    onAddFavori = () => { },
+    onRemoveFavori = () => { } }) {
 
     const location = useLocation();
     const navigate = useNavigate();
@@ -35,6 +36,10 @@ export default function FilmCard({
 
     const addFavori = (id) => {
         onAddFavori(id);
+    };
+
+    const removeFavori = (film) => {
+        onRemoveFavori(film);
     };
 
     const toggleExpand = (id) => {
@@ -108,12 +113,8 @@ export default function FilmCard({
                                             ) :
                                                 /* Zone d'affichage réservé à la page des favoris */
                                                 location.pathname === `/${ROAD.FAVORIS}` ? (
-                                                    <i
-                                                        className="fa-solid fa-star yellowstar cursor-pointer"
-                                                        data-bs-toggle="modal"
-                                                        data-bs-target="#suppression-modale"
-                                                        data-bs-film-title={film.title} data-bs-id={film.id}
-                                                    ></i>
+                                                    <i className="fa-solid fa-star yellowstar cursor-pointer" onClick={() => removeFavori(film)}>
+                                                    </i>
                                                 ) : null
                                     }
                                 </div>
