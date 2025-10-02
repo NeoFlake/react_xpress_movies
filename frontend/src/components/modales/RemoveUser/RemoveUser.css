@@ -1,0 +1,70 @@
+.react-modal-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 5vh;
+    /* pour la placer dans le 3/4 haut */
+    z-index: 1050;
+}
+
+.react-modal-dialog {
+    background: #fff;
+    border-radius: 8px;
+    width: 500px;
+    max-width: 90%;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+}
+
+.react-modal-header,
+.react-modal-footer {
+    padding: 1rem;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.react-modal-footer {
+    border-top: 1px solid #dee2e6;
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+}
+
+.react-modal-title {
+    margin: 0;
+    font-size: 1.25rem;
+}
+
+.react-modal-body {
+    padding: 1rem;
+    font-size: 1rem;
+}
+
+.react-modal-btn {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.react-modal-btn-primary {
+    background-color: #FF4500;
+    color: white;
+}
+
+.react-modal-btn-danger {
+    background-color: #DC143C;
+    color: white;
+}
+
+.btn-close {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+}

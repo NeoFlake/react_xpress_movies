@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { LIBELLE } from "../../constantes/account.constantes";
 import { LIBELLES } from "../../constantes/profile.constantes";
@@ -6,10 +6,17 @@ import { GlobalContext } from "../../contexts/GlobalContext";
 import updateProfileSchema from "../../validators/update-profile.validator";
 import { yupResolver } from '@hookform/resolvers/yup';
 import { UsersRest } from "../../rest/users.rest.js";
+import RemoveUser from "../../components/modales/RemoveUser/RemoveUser.jsx";
+import { useNavigate, useRouteLoaderData } from "react-router-dom";
+import { ROAD } from "../../constantes/road.contantes.js";
 
 export default function Profile() {
 
     const { userLogged, updatedUser } = useContext(GlobalContext);
+
+    const [ showModal, setShowModal ] = useState(false);
+
+    const navigate = useNavigate();
 
     // Gestion du formulaire d'inscription
     const {
@@ -45,12 +52,23 @@ export default function Profile() {
         });
     }
 
+    const remove = async () => {
+        await UsersRest.removeById(userLogged.id);
+        localStorage.removeItem("userLogged");
+        localStorage.removeItem("isAuthenticated");
+        navigate(`/${ROAD.ACCOUNT}/${ROAD.INSCRIPTION}`);
+    }
+
     useEffect(() => {
         resetForm();
     }, [userLogged]);
 
     return (
         <div className="container">
+            <RemoveUser isOpen={showModal}
+                onClose={() => setShowModal(false)}
+                onConfirm={remove}>
+            </RemoveUser>
             <div className="row d-flex justify-content-center">
                 <h1 className="col-3">{LIBELLES.TITLE}</h1>
             </div>
@@ -91,7 +109,7 @@ export default function Profile() {
                 </form>
             </div>
             <div className="row mt-5">
-                <button className="btn btn-danger col-4">{LIBELLES.DELETE_ACTION}</button> {/** Créer la modale de confirmation de destruction du compte */}
+                <button className="btn btn-danger col-4" onClick={() => setShowModal(true)}>{LIBELLES.DELETE_ACTION}</button> {/** Créer la modale de confirmation de destruction du compte */}
             </div>
         </div>
     );

@@ -47,12 +47,8 @@ const removeByUserAndFilmId = async (userId, filmId) => {
 const removeByUserId = async (id) => {
     const DELETE = `DELETE FROM Favoris WHERE userId=?`;
     try {
-        const deleted = await connection.query(DELETE, [id]);
-        if (deleted[0].affectedRows > 0) {
-            return deleted[0].affectedRows;
-        } else {
-            throw new Error(DB_ERROR.DELETE_FAVORIS);
-        }
+        await connection.query(DELETE, [id]);
+        return "removed";
     } catch (error) {
         throw new Error(error);
     }

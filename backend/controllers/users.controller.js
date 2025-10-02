@@ -133,9 +133,10 @@ const updateById = async (req, res) => {
 
 const removeById = async (req, res) => {
     try {
-        await UsersService.removeById(req.params.id);
+        await UsersService.removeById(Number(req.params.id));
         return res
-            .status(200);
+            .status(200)
+            .json("removed");
     } catch (error) {
         return res
             .status(500)

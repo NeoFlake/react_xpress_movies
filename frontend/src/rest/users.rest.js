@@ -35,5 +35,14 @@ export const UsersRest = {
         } catch (error) {
             throw Error(error.response.data.message);
         }
+    },
+
+    removeById: async (id) => {
+        try {
+            await axios.delete(`/${REST_ROAD.USERS}/${id}`);
+            return "removed";
+        } catch (error) {
+            throw Error(error.response.data.message);
+        }
     }
 } 

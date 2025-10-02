@@ -10,3 +10,10 @@ export const LIBELLES = {
     UPDATE_ACTION: "Modifier",
     DELETE_ACTION: "Supprimer compte"
 };
+
+export const MODALE_LIBELLES = {
+    TITLE: "Suppression définitive de votre compte",
+    BODY: "Êtes-vous sûr de vouloir supprimer définitivement votre compte? Cette action est totalement irréversible!",
+    CONFIRM_ACTION_BUTTON: "Oui",
+    DECLINE_ACTION_BUTTON: "Non"
+}

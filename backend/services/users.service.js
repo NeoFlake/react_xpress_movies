@@ -126,7 +126,7 @@ const updateById = async (user, id) => {
 
 const removeById = async (id) => {
     try {
-        const remove = await UsersRepository.deleteById(id);
+        const remove = await UsersRepository.removeById(id);
         if (remove > 0) {
             return "User remove";
         } else {
