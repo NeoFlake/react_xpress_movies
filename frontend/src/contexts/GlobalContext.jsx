@@ -2,6 +2,7 @@ import { createContext, useState, useEffect } from "react";
 import { GenresRest } from "../rest/genres.rest.js";
 import { FilmsRest } from "../rest/films.rest.js";
 import { UsersRest } from "../rest/users.rest.js";
+import { LIBELLE } from "../constantes/admin.constantes.js";
 
 export const GlobalContext = createContext();
 
@@ -11,6 +12,8 @@ export const Provider = ({ children }) => {
 
     const [films, setFilms] = useState([]);
     const [genres, setGenres] = useState([]);
+    const [filmsFormMode, setFilmsFormMode] = useState(LIBELLE.FILM_FORM_LIBELLE.MODE.ADD);
+    const [filmToEdit, setFilmToEdit] = useState(null);
 
     const [userLogged, setUserLogged] = useState(JSON.parse(localStorage.getItem("userLogged")) || {
         id: 0,
@@ -20,6 +23,16 @@ export const Provider = ({ children }) => {
         role: "",
         favoris: [],
     });
+
+    const updateFilm = (film) => {
+        setFilmToEdit(film);
+        setFilmsFormMode(LIBELLE.FILM_FORM_LIBELLE.MODE.UPDATE);
+    };
+
+    const addFilm = () => {
+        setFilmToEdit(null);
+        setFilmsFormMode(LIBELLE.FILM_FORM_LIBELLE.MODE.ADD);
+    };
 
     const fetchFilms = async () => {
         try {
@@ -44,7 +57,7 @@ export const Provider = ({ children }) => {
             const user = await UsersRest.findById(userLogged.id);
             localStorage.setItem("userLogged", JSON.stringify(user));
             setUserLogged(user);
-        } catch(error) {
+        } catch (error) {
             console.log(error.message);
         }
     }
@@ -70,7 +83,8 @@ export const Provider = ({ children }) => {
         <GlobalContext.Provider value={{
             userLogged, setUserLogged,
             isAuthenticated, setIsAuthenticated,
-            films, genres, updatedGenres, updatedFilms, updatedUser
+            films, genres, updatedGenres, updatedFilms, updatedUser,
+            filmsFormMode, filmToEdit, updateFilm, addFilm, setFilmsFormMode
         }}>
             {children}
         </GlobalContext.Provider>

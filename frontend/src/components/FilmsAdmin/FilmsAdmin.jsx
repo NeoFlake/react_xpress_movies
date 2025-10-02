@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { LIBELLE } from "../../constantes/admin.constantes";
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -11,16 +11,19 @@ import FilmCard from "../../components/FilmCard/FilmCard.jsx";
 
 export default function FilmsAdmin() {
 
-    const { genres, films, updatedFilms } = useContext(GlobalContext);
+    const { genres, films, updatedFilms, filmsFormMode, filmToEdit, setFilmsFormMode } = useContext(GlobalContext);
 
     // Ensemble des éléments du state nécessaire pour la gestion des films
-    const [filmsFormMode, setFilmsFormMode] = useState();
     const [filmsErrors, setFilmsErrors] = useState();
     // Permet de gérer la possibilité d'action avec les films
     const [disableFilmAction, setDisabledFilmAction] = useState();
 
     // Récupération de l'utilisateur dans le GlobalContexte
     const { userLogged } = useContext(GlobalContext);
+
+    // Ancre pour permettre de naviguer au niveau du formulaire de modification du film
+    const updateFormAnchor = useRef(null);
+    const filmListAnchor = useRef(null);
 
     // Gestion du formulaire d'ajout de film
     const {
@@ -81,11 +84,6 @@ export default function FilmsAdmin() {
         }
     };
 
-    useEffect(() => {
-        setFilmsFormMode(LIBELLE.GENRE_FORM_LIBELLE.MODE.ADD);
-        setDisabledFilmAction(false);
-    }, []);
-
     // Permet de switcher entre les formulaires de gestion de film
 
     const displayAddFilmForm = () => {
@@ -130,9 +128,33 @@ export default function FilmsAdmin() {
         }
     };
 
+    useEffect(() => {
+        if (filmsFormMode === LIBELLE.FILM_FORM_LIBELLE.MODE.UPDATE && filmToEdit) {
+            // Alimente le formulaire avec le film sélectionné
+            let filmToUpdate = { ...filmToEdit };
+            filmToUpdate.genres = filmToUpdate.genres
+                .map(name => {
+                    const g = genres.find(gen => gen.name === name);
+                    return g ? g.id : null;
+                })
+                .filter(Boolean);
+            resetUpdateFilm({
+                ...filmToUpdate,
+                genres: filmToUpdate.genres.map(id => id.toString()),
+                releaseDate: DateService.formatToService(filmToUpdate.releaseDate)
+            });
+        }
+        if (filmsFormMode === LIBELLE.FILM_FORM_LIBELLE.MODE.UPDATE && updateFormAnchor.current) {
+            updateFormAnchor.current.scrollIntoView({ behavior: "smooth" });
+        }
+        if (filmsFormMode === LIBELLE.FILM_FORM_LIBELLE.MODE.ADD && filmListAnchor.current){
+            filmListAnchor.current.scrollIntoView({ behavior: "smooth" });
+        }
+    }, [filmsFormMode, filmToEdit]);
+
     return (
         <>
-            <div className="row mt-5">
+            <div className="row mt-5" ref={filmListAnchor}>
                 <h3 className="col-5 text-decoration-underline">{LIBELLE.TITLE_FILM_MANAGEMENT}</h3>
             </div>
             {/* Zone de display des films */}
@@ -186,7 +208,7 @@ export default function FilmsAdmin() {
                             </div>
                         </form>
                         : /* Formulaire de modification d'un film */
-                        <form method="post" className="row col-6" onSubmit={handleSubmitUpdateFilm(sendUpdateFilm)}>
+                        <form method="post" className="row col-6" ref={updateFormAnchor} onSubmit={handleSubmitUpdateFilm(sendUpdateFilm)}>
                             <input type="hidden" name="id" {...registerUpdateFilm("id")} />
                             <div className="mb-3 col-8">
                                 <label htmlFor="title" className="form-label">{LIBELLE.FILM_FORM_LIBELLE.TITLE}</label>

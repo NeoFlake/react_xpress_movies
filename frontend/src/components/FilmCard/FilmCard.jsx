@@ -1,11 +1,12 @@
 import "./FilmCard.css";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { ROLES } from "../../constantes/roles.constantes";
 import { ROAD } from "../../constantes/road.contantes.js";
 import { LIBELLE } from "../../constantes/film-card.constantes";
 import DateService from "../../services/date.service.js";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import FullPoster from "../../components/modales/FullPoster/FullPoster.jsx";
+import { GlobalContext } from "../../contexts/GlobalContext.jsx";
 
 export default function FilmCard({
     films,
@@ -16,6 +17,9 @@ export default function FilmCard({
     onAddFavori = () => { }, }) {
 
     const location = useLocation();
+    const navigate = useNavigate();
+
+    const { updateFilm } = useContext(GlobalContext);
 
     const [isExpanded, setIsExpanded] = useState(null);
     // State pour permettre d'ouvrir la modale d'affichage de l'affiche en plein écran
@@ -35,6 +39,11 @@ export default function FilmCard({
 
     const toggleExpand = (id) => {
         setIsExpanded(prev => (prev === id ? null : id));
+    };
+
+    const goToUpdateFilm = (film) => {
+        updateFilm(film);
+        navigate(`/${ROAD.ADMIN}`);
     };
 
     return (
@@ -72,7 +81,7 @@ export default function FilmCard({
                                         location.pathname === `/${ROAD.HOMEPAGE}` ? (
                                             userLogged.role === ROLES.ADMIN ? (
                                                 /* Button de modification du film réservé aux admins */
-                                                <button className="btn btn-primary me-2">
+                                                <button className="btn btn-primary me-2" onClick={() => goToUpdateFilm(film)}>
                                                     {LIBELLE.UPDATE_BUTTON}
                                                 </button>
                                             ) : (
