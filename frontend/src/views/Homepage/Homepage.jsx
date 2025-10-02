@@ -7,6 +7,7 @@ import { FilmsRest } from "../../rest/films.rest.js";
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { FavorisRest } from "../../rest/favoris.rest.js";
+import Navbar from "../../components/Navbar/Navbar.jsx";
 
 export default function Homepage() {
 
@@ -54,6 +55,7 @@ export default function Homepage() {
 
     return (
         <div className="container">
+            <Navbar></Navbar>
             <div className="row mt-5 d-flex justify-content-center">
                 <h1 className="col-3">{LIBELLE.TITLE}</h1>
             </div>
