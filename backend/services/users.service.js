@@ -80,7 +80,7 @@ const updateById = async (user, id) => {
         if (user.id === id) {
             const emailAlreadyExist = await UsersRepository.findByEmail(user.email);
             const oldUser = await UsersRepository.findById(id);
-            if (user.email !== oldUser.email && emailAlreadyExist.length > 0) {
+            if (user.email !== oldUser.email && emailAlreadyExist !== 0) {
                 throw new Error(ERROR_LIBELLE.EMAIL_ALDREADY_EXIST);
             } else {
                 if (bcrypt.compareSync(user.password, oldUser.password)) {
@@ -90,7 +90,7 @@ const updateById = async (user, id) => {
                         email: user.email,
                         password: oldUser.password
                     };
-                    if (user.newPassword.length > 0) {
+                    if (user.newPassword !== null) {
                         if (user.newPassword === user.confirmPassword) {
                             updatedUser.password = await bcrypt.hash(user.newPassword, saltRounds);
                             const update = await UsersRepository.updateById(user.id, updatedUser);
@@ -108,8 +108,8 @@ const updateById = async (user, id) => {
                         if (update === 0) {
                             throw new Error(ERROR_LIBELLE.UPDATE_PROFILE_DB_ERROR);
                         } else {
-                            const userUpdated = await UsersRepository.findById(user.id);
-                            return userUpdated;
+                            await UsersRepository.findById(user.id);
+                            return "updated";
                         }
                     }
                 } else {

@@ -26,5 +26,14 @@ export const UsersRest = {
         } catch (error) {
             throw Error(error.response.data.message);
         }
+    },
+
+    updateById: async (id, user) => {
+        try {
+            await axios.put(`/${REST_ROAD.USERS}/${id}`, user);
+            return "updated";
+        } catch (error) {
+            throw Error(error.response.data.message);
+        }
     }
 } 

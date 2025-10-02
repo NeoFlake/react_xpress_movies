@@ -100,9 +100,10 @@ const add = async (req, res) => {
 
 const updateById = async (req, res) => {
     try {
-        await UsersService.updateById(req.body, req.params.id);
+        await UsersService.updateById(req.body, Number(req.params.id));
         return res
-            .status(200);
+            .status(200)
+            .json("updated");
     } catch (error) {
         if (error.message === ERROR_LIBELLE.EMAIL_ALDREADY_EXIST || error.message === ERROR_LIBELLE.UPDATE_PROFILE_FAIL
             || error.message === ERROR_LIBELLE.UPDATE_PASSWORD_FAIL) {

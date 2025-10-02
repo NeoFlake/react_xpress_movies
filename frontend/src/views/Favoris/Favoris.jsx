@@ -32,7 +32,6 @@ export default function Favoris() {
     }
 
     useEffect(() => {
-        console.log("Je rentre au moins dans l'effect :P");
         if (userLogged?.favoris?.length === 0 || userLogged.favoris[0] === null) {
             navigate(`/${ROAD.HOMEPAGE}`);
         }
