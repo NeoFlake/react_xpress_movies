@@ -26,3 +26,7 @@
   border-color: #FF4500 !important;
   color: #FF4500 !important;
 }
+
+.inactive {
+  cursor: default;
+}

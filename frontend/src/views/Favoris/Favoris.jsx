@@ -6,6 +6,7 @@ import RemoveFavori from "../../components/modales/RemoveFavori/RemoveFavori.jsx
 import { FavorisRest } from "../../rest/favoris.rest.js";
 import { useNavigate } from "react-router-dom";
 import { ROAD } from "../../constantes/road.contantes.js";
+import Navbar from "../../components/Navbar/Navbar.jsx";
 
 export default function Favoris() {
 
@@ -39,6 +40,7 @@ export default function Favoris() {
 
     return (
         <div className="container">
+            <Navbar></Navbar>
             <RemoveFavori film={filmToRemove} userId={userLogged.id} onConfirm={remove} onClose={() => setFilmToRemove(null)}></RemoveFavori>
             <div className="row d-flex justify-content-center mt-5">
                 <h1 className="col-3">{LIBELLES.TITLE}</h1>

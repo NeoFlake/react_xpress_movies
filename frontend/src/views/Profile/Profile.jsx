@@ -9,6 +9,7 @@ import { UsersRest } from "../../rest/users.rest.js";
 import RemoveUser from "../../components/modales/RemoveUser/RemoveUser.jsx";
 import { useNavigate, useRouteLoaderData } from "react-router-dom";
 import { ROAD } from "../../constantes/road.contantes.js";
+import Navbar from "../../components/Navbar/Navbar.jsx";
 
 export default function Profile() {
 
@@ -65,6 +66,7 @@ export default function Profile() {
 
     return (
         <div className="container">
+            <Navbar></Navbar>
             <RemoveUser isOpen={showModal}
                 onClose={() => setShowModal(false)}
                 onConfirm={remove}>
